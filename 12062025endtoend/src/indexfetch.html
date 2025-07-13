@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Email</th>
+            </tr>
+        </thead>
+        <tbody id="userTableBody">
+            <!-- Aquí se insertarán las filas con innerHTML -->
+        </tbody>
+    </table>
+
+
+    <script>
+        fetch("http://localhost:3000/users")
+            .then(response => response.json())
+            .then(data => {
+                const tbody = document.getElementById('userTableBody');
+                let html = '';
+
+                data.forEach(user => {
+                    html += `
+            <tr>
+              <td>${user.name}</td>
+              <td>${user.email}</td>
+            </tr>
+          `;
+                });
+
+                tbody.innerHTML = html;
+            })
+            .catch(error => {
+                console.error('Error al obtener los datos:', error);
+            });
+
+        const a = async () => {
+            const buscar = await fetch(`http://localhost:3000/users/${10}`, {
+                method: "PATCH",
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    email: 'edwingiraldoloaiza@gmail.com'
+                })
+
+            })
+
+            const respuesta = await buscar.json()
+            console.log(respuesta)
+        }
+        a()
+        //  fetch(`http://localhost:3000/users`, {
+        //     method: "DELETE",
+        // })
+        //     .then(res => res.json())
+        //     .then((res) => {
+        //         console.log(res)
+        //     })
+        //     .catch((e) => {
+        //         console.log(e)
+        //     })
+    </script>
+</body>
+
+</html>
